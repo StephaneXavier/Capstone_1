@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<h1>no show form</h1>
+<form id="report-late-bus-form" method="POST">
+    {{ form.hidden_tag() }}
+
+
+    {% for field in form
+    if field.widget.input_type != 'hidden' %}
+
+    <p>
+        {{ field.label }}
+        {{ field }}
+
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+    </p>
+
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+</form>
+{%endblock%}
+
+{% block scripts %}
+<script src="../static/report_late_bus.js"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{% block content %}
+<h1>Home page</h1>
+<h2>Total reports: {{datapoints}}</h2>
+<h3>Total no shows: {{no_shows_amount}}</h3>
+<h3>Total minutes late: {{total_delay_time}}</h3>
+
+<form id="get-data" action='/db_request' method="GET">
+    {{ form.hidden_tag() }}
+
+
+    {% for field in form
+    if field.widget.input_type != 'hidden' %}
+
+    <p>
+        {{ field.label }}
+        {{ field }}
+
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+    </p>
+
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
+
+{% block scripts%}
+<script src="../static/home.js"></script>
+{% endblock %}

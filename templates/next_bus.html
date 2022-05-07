@@ -1,0 +1,67 @@
+{% extends 'base.html'%}
+
+{% block content%}
+
+
+<h1>next bus</h1>
+<form action="/next_bus_times" method="GET">
+    <input type="text" name="busNo" id="busNo" placeholder="Bus number">
+    <input type="text" name="stopNo" id="stopNo" placeholder="Stop number">
+    <input type="submit" name="" id="submit">
+</form>
+<ul>
+    {% for time in stop_times%}
+    <li>{{time}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+{% block jsScripts%}
+<script src="../static/next_bus.js"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <h1>next bus</h1>
+    <form action="/next_bus">
+        <input type="text" name="busNo" id="busNo" placeholder="Bus number">
+        <input type="text" name="stopNo" id="stopNo" placeholder="Stop number">
+        <input type="submit" name="" id="submit">
+    </form>
+    <ul>
+        {% for time in stop_times%}
+        <li>{{time}}</li>
+        {% endfor %}
+    </ul>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+    <script src="../static/next_bus.js"></script>
+
+</body>
+
+</html> -->
