@@ -52,56 +52,9 @@ class Validator():
                     return False 
         else:
             return True
-    
 
 
-def get_busNo_from_gtfs_routes_text(routes_text):
-    """Returns an array of buses from the gtfs "routes.txt" file"""
-    file = open(routes_text)
-    lines = file.readlines()[1::2]
-    bus_arr = []
 
-    for line in lines:
-               
-        busNo = ''
-        count = 0
-        for char in line:
-            
-            if 2 > count >= 1:
-                busNo+=char
-            if char == ',':
-                count += 1
-        
-        bus_arr.append(busNo[:-1])
-        
-    file.close()  
-    return bus_arr
-            
-def get_stopNo_from_gtfs_stops_text(stops_text):
-    """Returns an array of stop_id from the gtfs "routes.txt" file"""
-    file = open(stops_text)
-    lines = file.readlines()[1:]
-    stop_id_arr = []
-
-    for line in lines:
-               
-        stopNo = ''
-        count = 0
-        for char in line:
-            
-            if 2 > count >= 1:
-                stopNo+=char
-            if char == ',':
-                count += 1
-        
-        stop_id_arr.append(stopNo[:-1])
-        
-    file.close()  
-    return stop_id_arr
-
-            
-    
-        
 def get_search_query_data(user_param):
 # Take the immutable dict, turn it into dic. Delete the cfrs toke, then make a new
 # dict where any key-pair entry is deleted if the value is None
@@ -114,6 +67,7 @@ def get_search_query_data(user_param):
     return Submitted_Data.query.filter_by(**search_param).all()
     
 
+
 def extract_search_query_data(sqlalch_data, busNo, stopNo):
     
     if busNo and not stopNo:
@@ -124,7 +78,6 @@ def extract_search_query_data(sqlalch_data, busNo, stopNo):
             else:
                 resp[f'busNo_{busNo}_info']['noShow'] += 1
     
-    
     if stopNo and not busNo:
         resp = {f'stopNo{stopNo}_info':{'delay':0,'noShow':0}}
         for e in sqlalch_data:
@@ -132,12 +85,6 @@ def extract_search_query_data(sqlalch_data, busNo, stopNo):
                 resp[f'stopNo_{stopNo}_info']['delay'] += e.delay
             else:
                 resp[f'stopNo_{stopNo}_info']['noShow'] += 1
-    
 
-    
-    
-    
-    
-    
     return resp
     

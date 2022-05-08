@@ -1,8 +1,6 @@
 from models import User, Submitted_Data
 from app import app, db
 
-db.drop_all()
-db.create_all()
 
 
 u1 = User.register(username='habibi69', pwd = '123')

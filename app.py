@@ -5,7 +5,7 @@ from API_key import app_id, api_key, next_trips_url
 from forms import AddLateBusForm, Login, SignUp, GetData
 from models import db, connect_db, User, Submitted_Data
 from datetime import datetime
-from functions import get_username, calculate_time, Validator, get_busNo_from_gtfs_routes_text, get_stopNo_from_gtfs_stops_text, get_search_query_data,extract_search_query_data
+from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data
 
 
 app = Flask(__name__)
@@ -168,9 +168,7 @@ def logout():
 @app.route('/db_request', methods=['GET'])
 def db_request():
     
-    stops_arr = get_stopNo_from_gtfs_stops_text('gtfs/stops.txt')
-    bus_arr = get_busNo_from_gtfs_routes_text('gtfs/routes.txt')
-
+    
     req = request.args
     stopNo = req['stopNo']
     busNo = req['busNo']
@@ -180,11 +178,7 @@ def db_request():
     data = get_search_query_data(req)
     resp = extract_search_query_data(data, busNo,stopNo)
 
-
     raise
-
-
-    
     
     
     print('%%%%%%%%%%%%%%%%%%%%%%%%')

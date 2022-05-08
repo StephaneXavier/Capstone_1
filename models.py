@@ -69,3 +69,33 @@ class User(db.Model):
             return u
         else:
             return False
+
+
+class Bus(db.Model):
+
+    __tablename__ = 'buses'
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    route_short_name = db.Column(db.String,
+                     nullable=False,
+                     unique=False)
+    route_id = db.Column(db.String,
+                     nullable=False,
+                     unique=False)
+
+
+class Stop(db.Model):
+
+    __tablename__ = 'stops'
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    stop_code = db.Column(db.String,
+                     nullable=False,
+                     unique=False)
+    stop_name = db.Column(db.String,
+                     nullable=False,
+                     unique=False)
