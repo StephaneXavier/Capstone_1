@@ -71,15 +71,16 @@ def get_search_query_data(user_param):
 def extract_search_query_data(sqlalch_data, busNo, stopNo):
     
     if busNo and not stopNo:
-        resp = {f'busNo{busNo}_info':{'delay':0,'noShow':0}}
+        resp = {f'busNo_{busNo}_info':{'delay':0,'noShow':0}}
         for e in sqlalch_data:
+            
             if not e.noShow:
                 resp[f'busNo_{busNo}_info']['delay'] += e.delay
             else:
                 resp[f'busNo_{busNo}_info']['noShow'] += 1
     
     if stopNo and not busNo:
-        resp = {f'stopNo{stopNo}_info':{'delay':0,'noShow':0}}
+        resp = {f'stopNo_{stopNo}_info':{'delay':0,'noShow':0}}
         for e in sqlalch_data:
             if e.delay:
                 resp[f'stopNo_{stopNo}_info']['delay'] += e.delay

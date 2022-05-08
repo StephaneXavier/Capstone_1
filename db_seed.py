@@ -61,19 +61,24 @@ def get_stopNo_from_gtfs_stops_text(stops_text):
 
 
 
-
+"""Need to change the file paths for buses and stops whenever new text files come out"""
 buses = get_busNo_from_gtfs_routes_text('/mnt/c/Users/steph/Desktop/gtfs/routes.txt')
 stops = get_stopNo_from_gtfs_stops_text('/mnt/c/Users/steph/Desktop/gtfs/stops.txt')
 
 db.drop_all()
 db.create_all()
 
+bm = []
+sm = []
+
 for route_id,route_short_name in buses:
     b = Bus(route_id=route_id,route_short_name=route_short_name)
-    db.session.add(b)
-    db.session.commit()
+    bm.append(b)
 
 for stop_code, stop_name in stops:
     s = Stop(stop_code=stop_code,stop_name=stop_name)
-    db.session.add(s)
-    db.session.commit()
+    sm.append(s)
+
+db.session.add_all(bm)
+db.session.add_all(sm)
+db.session.commit()

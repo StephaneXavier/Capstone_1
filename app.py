@@ -176,6 +176,7 @@ def db_request():
     from_time = req['from_time']
     
     data = get_search_query_data(req)
+    
     resp = extract_search_query_data(data, busNo,stopNo)
 
     raise
