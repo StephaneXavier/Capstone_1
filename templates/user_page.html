@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Your reports ({{ls}})</h2>
+<ul>
+    {% for el in submissions %}
+    <li>{{el.date_submitted.date()}} - Bus {{el.busNo}} at stop {{el.stopNo}} reported
+        {% if el.noShow%} as a no show {% endif %} {% if not el.noShow %} {{el.delay}} minutes late {%endif%} </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

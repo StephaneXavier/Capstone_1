@@ -29,5 +29,5 @@ class Login(FlaskForm):
 class GetData(FlaskForm):
     busNo = IntegerField("Bus number", validators=[Optional()])
     stopNo = IntegerField("Stop number", validators=[Optional()])
-    from_time = DateField("From", validators=[Optional()])
-    to_time = DateField("To", validators=[Optional()])
+    from_date = DateField("From", validators=[Optional()])
+    to_date = DateField("To", validators=[Optional()])

@@ -1,31 +1,51 @@
 {%extends 'base.html'%}
 
 {% block content %}
-<h1>Home page</h1>
-<h2>Total reports: {{datapoints}}</h2>
-<h3>Total no shows: {{no_shows_amount}}</h3>
-<h3>Total minutes late: {{total_delay_time}}</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <h1 class>Database search</h1>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
 
-<form id="get-data" action='/db_request' method="GET">
-    {{ form.hidden_tag() }}
+            <form id="get-data" action='/db_request' method="GET">
+
+                {{ form.hidden_tag() }}
 
 
-    {% for field in form
-    if field.widget.input_type != 'hidden' %}
+                {% for field in form
+                if field.widget.input_type != 'hidden' %}
 
-    <p>
-        {{ field.label }}
-        {{ field }}
+                <p>
+                    {{ field.label }}
+                    {{ field }}
 
-        {% for error in field.errors %}
-        {{ error }}
-        {% endfor %}
-    </p>
+                    {% for error in field.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </p>
 
-    {% endfor %}
+                {% endfor %}
 
-    <button type="submit">Submit</button>
-</form>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                <button type= '' class="btn btn-danger" id="clear">Clear results</button>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" id="response">
+        
+
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts%}

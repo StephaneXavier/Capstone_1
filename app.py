@@ -1,11 +1,12 @@
 
+from crypt import methods
 from flask import Flask, redirect, render_template, request, jsonify,json, flash, session
 import requests
 from API_key import app_id, api_key, next_trips_url
 from forms import AddLateBusForm, Login, SignUp, GetData
 from models import db, connect_db, User, Submitted_Data
 from datetime import datetime
-from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data
+from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data, nav_totals
 
 
 app = Flask(__name__)
@@ -22,20 +23,25 @@ connect_db(app)
 def home_page():
     u = get_username()
     form = GetData()
-    datapoints = len(Submitted_Data.query.all())
-    no_shows_amount = len(Submitted_Data.query.filter_by(noShow=True).all())
-    delays_arr = Submitted_Data.query.filter_by(noShow=False).all()
-    total_delay_time = calculate_time(delays_arr)
+    nt = nav_totals()
 
-    
-    
-    return render_template('home.html', u=u, datapoints=datapoints, no_shows_amount=no_shows_amount,total_delay_time=total_delay_time, form = form)
+    return render_template('home.html', u=u,form = form, datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
+
+
+@app.route('/db_request', methods=['GET'])
+def db_request():
+    req = request.args
+    data = get_search_query_data(req)
+    resp = extract_search_query_data(data, req)
+    return resp
 
 
 @app.route('/next_bus', methods=['GET'])
 def next_bus():
     u = get_username()
-    return render_template('next_bus.html', u=u)
+    nt = nav_totals()
+    
+    return render_template('next_bus.html', u=u, datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
 
 
 @app.route('/next_bus_times', methods=['GET'])
@@ -66,6 +72,7 @@ def report_late_bus():
     form = AddLateBusForm()
     validate = Validator()
     u = get_username()
+    nt=nav_totals()
     
     if form.validate_on_submit():
         stopNo = form.stopNo.data
@@ -78,7 +85,7 @@ def report_late_bus():
         valide_submission = validate.validate_busNo_stopNo(busNo,stopNo)
         
         if valide_schedule_time and valide_submission:
-            new_report = Submitted_Data(stopNo = stopNo, busNo = busNo, delay = delay, noShow = noShow, date_submitted = datetime.now() )
+            new_report = Submitted_Data(stopNo = stopNo, busNo = busNo, delay = delay, noShow = noShow, date_submitted = datetime.now(), user_id = session.get('user_id') )
 
             db.session.add(new_report)
             db.session.commit()
@@ -94,13 +101,14 @@ def report_late_bus():
 
     else:
         return render_template(
-            "report_late_bus.html", form=form, u=u)
+            "report_late_bus.html", form=form, u=u, datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
 
     
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = Login()
+    nt=nav_totals()
     
 
     if form.validate_on_submit():
@@ -122,7 +130,7 @@ def login():
     else:
         u = get_username()
         return render_template(
-            "login.html", form=form, u=u)
+            "login.html", form=form, u=u,datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
     
 
 
@@ -130,7 +138,7 @@ def login():
 def signup():
 
     form = SignUp()
-    
+    nt=nav_totals()
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -151,7 +159,7 @@ def signup():
             redirect('/signup') 
 
     u = get_username()
-    return render_template('signup.html', form = form, u=u)
+    return render_template('signup.html', form = form, u=u,datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
 
 
 @app.route('/logout', methods=['GET'])
@@ -165,26 +173,20 @@ def logout():
         flash('You are not logged in!', 'info')
         return redirect('/login')
 
-@app.route('/db_request', methods=['GET'])
-def db_request():
-    
-    
-    req = request.args
-    stopNo = req['stopNo']
-    busNo = req['busNo']
-    to_time = req['to_time']
-    from_time = req['from_time']
-    
-    data = get_search_query_data(req)
-    
-    resp = extract_search_query_data(data, busNo,stopNo)
 
-    raise
-    
-    
-    print('%%%%%%%%%%%%%%%%%%%%%%%%')
-    print(resp)
-    print(busNo, stopNo)
-    print('%%%%%%%%%%%%%%%%%%%%%%%%')
+@app.route('/user_page')
+def bus_stop_check():
+    nt = nav_totals()
+    if session.get('user_id'):
 
-    return 'test'
+        submissions = Submitted_Data.query.filter(Submitted_Data.user_id == session['user_id']).all()
+        ls = len(submissions)
+        
+
+    
+    return render_template('user_page.html', submissions=submissions, ls = ls,datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
+
+     
+@app.route('/test')
+def test():
+    return render_template('test.html')
