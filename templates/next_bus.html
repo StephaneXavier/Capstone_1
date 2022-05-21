@@ -2,28 +2,45 @@
 
 {% block content%}
 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <h1>next bus</h1>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <form action="/next_bus_times" method="GET">
+                <input type="text" name="busNo" id="busNo" placeholder="Bus number">
+                <input type="text" name="stopNo" id="stopNo" placeholder="Stop number"><br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
 
-<h1>next bus</h1>
-<form action="/next_bus_times" method="GET">
-    <input type="text" name="busNo" id="busNo" placeholder="Bus number">
-    <input type="text" name="stopNo" id="stopNo" placeholder="Stop number">
-    <input type="submit" name="" id="submit">
-</form>
-<ul>
-    {% for time in stop_times%}
-    <li>{{time}}</li>
-    {% endfor %}
-</ul>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                    {% for time in stop_times%}
+                    <li class="list-group-item">{{time}}</li>
+                    {% endfor %}
 
-{% endblock %}
-{% block jsScripts%}
-<script src="../static/next_bus.js"></script>
-{% endblock %}
+                </ul>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
 
-
-
-
-
+    {% endblock %}
+    {% block jsScripts%}
+    <script src="../static/next_bus.js"></script>
+    {% endblock %}
 
 
 
@@ -33,7 +50,12 @@
 
 
 
-<!-- <!DOCTYPE html>
+
+
+
+
+
+    <!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>

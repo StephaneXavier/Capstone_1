@@ -1,27 +1,45 @@
 {% extends 'base.html'%}
 
 {% block content%}
-<h1>no show form</h1>
-<form id="report-late-bus-form" method="POST">
-    {{ form.hidden_tag() }}
 
 
-    {% for field in form
-    if field.widget.input_type != 'hidden' %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <h1>no show form</h1>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <form id="report-late-bus-form" method="POST">
+                {{ form.hidden_tag() }}
+            
+            
+                {% for field in form
+                if field.widget.input_type != 'hidden' %}
+            
+                <p>
+                    {{ field.label }}
+                    {{ field }}
+            
+                    {% for error in field.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </p>
+            
+                {% endfor %}
+            
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
 
-    <p>
-        {{ field.label }}
-        {{ field }}
 
-        {% for error in field.errors %}
-        {{ error }}
-        {% endfor %}
-    </p>
-
-    {% endfor %}
-
-    <button type="submit">Submit</button>
-</form>
 {%endblock%}
 
 {% block scripts %}

@@ -16,7 +16,7 @@ function display_db_query_result(db_resp) {
     <div class="card-body">
 
       <h5 class="card-title">
-      Delay:${db_resp.data.delay}, no shows: ${db_resp.data.noShow}</h5>
+      Delay:${db_resp.data.delay} minutes, no shows: ${db_resp.data.noShow}</h5>
      
      
       <p class="card-text"> Search parameters<br/>

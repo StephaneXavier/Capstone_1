@@ -1,5 +1,3 @@
-
-from crypt import methods
 from flask import Flask, redirect, render_template, request, jsonify,json, flash, session
 import requests
 from API_key import app_id, api_key, next_trips_url
@@ -7,6 +5,7 @@ from forms import AddLateBusForm, Login, SignUp, GetData
 from models import db, connect_db, User, Submitted_Data
 from datetime import datetime
 from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data, nav_totals
+from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
@@ -16,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
-
+Bootstrap(app)
 
 
 @app.route('/')
@@ -24,7 +23,7 @@ def home_page():
     u = get_username()
     form = GetData()
     nt = nav_totals()
-
+    
     return render_template('home.html', u=u,form = form, datapoints=nt['datapoints'], no_shows_amount = nt['no_shows_amount'], total_delay_time = nt['total_delay_time'])
 
 
@@ -189,4 +188,5 @@ def bus_stop_check():
      
 @app.route('/test')
 def test():
-    return render_template('test.html')
+    form = GetData()
+    return render_template('test.html', form = form)
