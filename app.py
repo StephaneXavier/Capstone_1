@@ -5,17 +5,17 @@ from forms import AddLateBusForm, Login, SignUp, GetData
 from models import db, connect_db, User, Submitted_Data
 from datetime import datetime
 from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data, nav_totals
-from flask_bootstrap import Bootstrap
+
 
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "oh-so-secret"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///capstone1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://serrxavsvderak:1dab640fa23279de74bb18c83930f93d8e458074d89d85e62546847aa513ed94@ec2-3-228-235-79.compute-1.amazonaws.com:5432/d7lvt4p2cpt258'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
-Bootstrap(app)
+
 
 
 @app.route('/')
