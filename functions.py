@@ -1,12 +1,14 @@
 from models import User
 from flask import session
 import requests
-from API_key import app_id,api_key
+# from API_key import app_id,api_key
 from app import next_trips_url
 from datetime import date, timedelta, datetime
 from models import Submitted_Data, db
+import os
 
-
+app_id = os.environ.get('app_id')
+api_key = os.environ.get('api_key')
 
 
 def get_username():
