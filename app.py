@@ -5,7 +5,7 @@ from forms import AddLateBusForm, Login, SignUp, GetData
 from models import db, connect_db, User, Submitted_Data
 from datetime import datetime
 from functions import get_username, calculate_time, Validator, get_search_query_data,extract_search_query_data, nav_totals
-import os 
+import os
 
 
 
