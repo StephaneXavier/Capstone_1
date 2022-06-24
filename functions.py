@@ -18,13 +18,6 @@ def get_username():
     return None
 
 
-def calculate_time(arr):
-    t=0
-    for e in arr:
-        t +=e.delay
-    return t
-
-
 class Validator():
 
 
@@ -106,8 +99,16 @@ def extract_search_query_data(sqlalch_data, user_param):
             resp['data']['noShow'] += 1
     return resp
 
-    
-    
+
+
+def calculate_time(arr):
+    t=0
+    for e in arr:
+        t +=e.delay
+    return t    
+
+
+
 def nav_totals():
 
     datapoints = len(Submitted_Data.query.all())
