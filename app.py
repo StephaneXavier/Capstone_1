@@ -10,8 +10,7 @@ import os
 
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "oh-so-secret"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://serrxavsvderak:1dab640fa23279de74bb18c83930f93d8e458074d89d85e62546847aa513ed94@ec2-3-228-235-79.compute-1.amazonaws.com:5432/d7lvt4p2cpt258'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('db_uri')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 next_trips_url = 'https://api.octranspo1.com/v2.0/GetNextTripsForStop'
