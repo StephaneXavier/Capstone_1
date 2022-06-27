@@ -11,6 +11,7 @@ import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('db_uri')
+app.config['SECRET_KEY'] = os.environ.get('secret_key')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 next_trips_url = 'https://api.octranspo1.com/v2.0/GetNextTripsForStop'
